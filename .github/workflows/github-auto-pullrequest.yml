@@ -6,6 +6,7 @@ on:
       - '**'        # matches every branch
       - '!main'   # excludes master
 
+
 jobs: 
   Auto_Pull_Request:
     runs-on: ubuntu-latest
@@ -18,7 +19,7 @@ jobs:
           if [ -z "$(git diff origin/main --diff-filter=ACMR --name-only)" ]; then
             exit 0
           fi
-          gh pr create -B "main" -t "Develop ${{ env.BRANCH }} into main" -b "" -a $AUTHOR -r--e $AUTHOR
+          gh pr create -B "main" -t "Develop ${{ env.BRANCH }} into main" -b "" -a $AUTHOR -r $AUTHOR
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: ${GITHUB_REF#refs/heads/}
