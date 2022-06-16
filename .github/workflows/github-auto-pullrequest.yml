@@ -20,7 +20,7 @@ jobs:
           if [ -z "$(git diff origin/main --diff-filter=ACMR --name-only)" ]; then
             exit 0
           fi
-          gh pr checks "main"
+          gh pr checks "origin/main"
         # gh pr create -B "main" -t "Develop ${{ env.BRANCH }} into main" -b "" -a $AUTHOR -r $AUTHOR
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
