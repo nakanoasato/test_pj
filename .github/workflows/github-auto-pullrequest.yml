@@ -7,14 +7,14 @@ on:
       - '!main'   # excludes master
 
 jobs:
-  Lint:
+  Auto_Pull_Request:
     runs-on: ubuntu-latest
     steps:
-
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Create pull request
-        run: |
-          hub push
-          hub pull-request -b main -m "Release ${{ GITHUB_REF#refs/heads/ }}"
+      - uses: actions/checkout@v2
+      - name: Create release pr
+        run: gh pr create -B "main" -t "Develop ${{ env.BRANCH }} into main" -b "" -a $AUTHOR -r $AUTHOR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${GITHUB_REF#refs/heads/}
+          ASSIGNEE: ${{ github.event.pull_request.user.login }}
+          AUTHOR: ${{ github.event.pusher.name }}
