@@ -5,8 +5,7 @@ on:
     branches:
       - '**'        # matches every branch
       - '!main'   # excludes master
-    branch_protection_rule:
-      types: edited
+    edited:
 
 jobs:
   Auto_Pull_Request:
