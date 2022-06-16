@@ -15,4 +15,4 @@ jobs:
         run: gh pr create -B "main" -t "Develop ${{env.BRANCH}}" -b ""
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: "${GITHUB_REF#refs/heads/}"
+          BRANCH: ${GITHUB_REF#refs/heads/}
