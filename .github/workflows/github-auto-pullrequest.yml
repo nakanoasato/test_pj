@@ -5,13 +5,17 @@ on:
     branches:
       - '**'        # matches every branch
       - '!main'   # excludes master
-    edited:
 
-jobs:
+jobs: 
   Auto_Pull_Request:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Is changed
+        run: |
+          if [ -z "$(git diff origin/main --diff-filter=ACMR --name-only)" ]; then
+            exit 0
+          fi
       - name: Create release pr
         run: gh pr create -B "main" -t "Develop ${{ env.BRANCH }} into main" -b "" -a $AUTHOR -r $AUTHOR
         env:
