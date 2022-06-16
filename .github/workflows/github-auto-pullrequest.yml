@@ -14,15 +14,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Create release pr
+        continue-on-error: true
         run: |
           git fetch origin ${{ github.base_ref }} --depth=1
           git branch -a
           if [ -z "$(git diff origin/main --diff-filter=ACMR --name-only)" ]; then
             exit 0
           fi
-          gh pr status
-          k=$(gh pr status)
-        # gh pr create -B "main" -t "Develop ${{ env.BRANCH }} into main" -b "" -a $AUTHOR -r $AUTHOR
+          gh pr create -B "main" -t "Develop ${{ env.BRANCH }} into main" -b "" -a $AUTHOR -r $AUTHOR
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: ${GITHUB_REF#refs/heads/}
