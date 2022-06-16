@@ -10,17 +10,8 @@ jobs:
   Lint:
     runs-on: ubuntu-latest
     steps:
-
-      - name: Checkout
-        uses: actions/checkout@v2
-      
-      - run: |
-          git config --global user.name "GitHub Action"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-      - name: Create pull request
+      - uses: actions/checkout@v2
+      - name: Create release pr
+        run: gh pr create -B "main" -t "Develop" -b ""
         env:
-          BRANCH: "${GITHUB_REF#refs/heads/}"
-        run: |
-          echo ${{env.BRANCH}}
-          hub pull-request -b main -m "Release ${{env.BRANCH}}"
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
