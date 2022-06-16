@@ -22,5 +22,5 @@ jobs:
         env:
           BRANCH: "${GITHUB_REF#refs/heads/}"
         run: |
-          hub push
+          echo ${{env.BRANCH}}
           hub pull-request -b main -m "Release ${{env.BRANCH}}"
