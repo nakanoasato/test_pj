@@ -12,6 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Create release pr
-        run: gh pr create -B "main" -t "Develop" -b ""
+        env:
+          BRANCH: "${GITHUB_REF#refs/heads/}"
+        run: gh pr create -B "main" -t "Develop ${{BRANCH}}" -b ""
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
