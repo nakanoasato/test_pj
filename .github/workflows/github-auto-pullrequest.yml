@@ -19,4 +19,4 @@ jobs:
           BRANCH: "${GITHUB_REF#refs/heads/}"
         run: |
           hub push
-          hub pull-request -b main -m "Release ${{BRANCH}}"
+          hub pull-request -b main -m "Release ${{env.BRANCH}}"
