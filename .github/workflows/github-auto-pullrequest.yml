@@ -20,7 +20,7 @@ jobs:
           fi
           gh pr create -B "main" -t "Develop ${{ env.BRANCH }} into main" -b "" -a $AUTHOR -r $AUTHOR
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.event.pusher.name }}
           BRANCH: ${GITHUB_REF#refs/heads/}
           ASSIGNEE: ${{ github.event.pull_request.user.login }}
           AUTHOR: ${{ github.event.pusher.name }}
