@@ -9,4 +9,5 @@ jobs:
     steps:
       - name: check diff file name
         run: |
-          echo $(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1 | sort | uniq)
+          echo $RANDOM
+          echo $(cat /dev/urandom)
