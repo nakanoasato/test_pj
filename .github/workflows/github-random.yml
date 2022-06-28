@@ -9,5 +9,5 @@ jobs:
     steps:
       - name: check diff file name
         run: |
-          echo $RANDOM
-          echo $(cat /dev/urandom)
+          A=(echo $RANDOM)
+          echo $A
