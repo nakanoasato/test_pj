@@ -9,5 +9,6 @@ jobs:
     steps:
       - name: check diff file name
         run: |
-          A=(echo $RANDOM)
+          echo $RANDOM
+          A=$(echo $RANDOM)
           echo $A
