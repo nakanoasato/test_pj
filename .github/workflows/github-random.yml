@@ -2,6 +2,8 @@ name: Manual Deploy
 
 on:
   push:
+    branches:
+      - 'dev-**'        # matches every branch
 
 jobs:
   Deploy:
