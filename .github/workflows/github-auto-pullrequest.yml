@@ -3,8 +3,7 @@ name: Auto Pull Request
 on:
   push:
     branches:
-      - '**'        # matches every branch
-      - '!main'   # excludes master
+      - 'dev-**'        # matches every branch
 
 jobs: 
   Auto_Pull_Request:
