@@ -1,9 +1,7 @@
-name: Manual Deploy
+name: cloc test
 
 on:
   push:
-    branches:
-      - 'dev-**'        # matches every branch
 
 jobs:
   Deploy:
@@ -12,7 +10,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: check diff file name
+      - name: cloc test
         run: |
-          sh ./sample_action.sh
+          sudo apt install cloc
+          cloc ./
+
           
