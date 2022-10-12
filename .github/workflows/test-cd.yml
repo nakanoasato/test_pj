@@ -11,6 +11,5 @@ jobs:
     steps:
       - name: Check merged branch
         run: |
-          echo ${{ github.base_ref }}
-          echo ${GITHUB_REF#refs/heads/}
-          echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+          echo ${{ github.event.head_commit.message }}
+          echo ${github.event.head_commit.message}
