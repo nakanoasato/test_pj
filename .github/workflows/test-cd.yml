@@ -7,6 +7,7 @@ on:
 
 jobs:
   Integration_Test:
+    if github.event.head_commit.message =~ "quick"
     runs-on: ubuntu-latest
     steps:
       - name: Check merged branch
