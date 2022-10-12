@@ -13,7 +13,9 @@ jobs:
         run: |
           dir="${{ github.event.head_commit.message }}";
           echo $dir
-          if [ "$dir" =~ "quick-" ]; then
+          if [ $dir =~ "quick-" ]; then
             echo "contain quick"
             exit 0
+          else
+            echo "not contained"
           fi
