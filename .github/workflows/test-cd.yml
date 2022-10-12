@@ -11,7 +11,9 @@ jobs:
     steps:
       - name: Check merged branch
         run: |
-          for dir in "${{ github.event.head_commit.message }}";
-          do
-            echo $dir
-          done
+          dir="${{ github.event.head_commit.message }}";
+          echo $dir
+          if [ "$dir" =~ "quick-" ]; then
+            echo "contain quick"
+            exit 0
+          fi
