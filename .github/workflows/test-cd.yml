@@ -19,3 +19,7 @@ jobs:
           else
             echo "not contained"
           fi
+      
+      - name: 2nd proc
+        run: |
+          ls
