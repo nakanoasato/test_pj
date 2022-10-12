@@ -24,3 +24,11 @@ jobs:
       - name: 2nd proc
         run: |
           ls
+  
+  Pre_Deploy:
+    needs: Integration_Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        run: |
+          ls
