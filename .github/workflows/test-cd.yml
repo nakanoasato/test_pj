@@ -1,0 +1,16 @@
+name: Test CD
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  Integration_Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check merged branch
+        run: |
+          echo ${{ github.base_ref }}
+          echo ${{ github.head_ref }}
+          echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"

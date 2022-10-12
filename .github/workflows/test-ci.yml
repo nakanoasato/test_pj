@@ -1,0 +1,26 @@
+name: test CI workflow
+
+on:
+  push:
+    branches:
+      - 'sub**'        # match the branch started with pkg-
+
+jobs:
+  Auto_Pull_Request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create pull request
+        continue-on-error: true
+        run: |
+          git fetch origin ${{ github.base_ref }} --depth=1
+          if [ -z "$(git diff origin/main --diff-filter=ACMR --name-only)" ]; then
+            echo "At new branch. Dont create pr"
+            exit 0
+          fi
+          gh pr create -B "main" -t "Develop ${{ env.BRANCH }} into main" -b "" -a $AUTHOR -r $AUTHOR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${GITHUB_REF#refs/heads/}
+          ASSIGNEE: ${{ github.event.pull_request.user.login }}
+          AUTHOR: ${{ github.event.pusher.name }}
