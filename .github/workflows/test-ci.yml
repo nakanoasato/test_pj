@@ -13,8 +13,9 @@ jobs:
         run: |
           git config --global credential.helper cache
           git config -l
-          git clone https://${{secrets.GIT_USER}}:${{secrets.GIT_TOKEN}}@github.com/nakanoasato/TestMainSystem --recursive
-          
+          git clone -b master https://${{secrets.GIT_USER}}:${{secrets.GIT_TOKEN}}@github.com/GembaCPS/ProcessVisualizer.git --recursive
+          ls ProcessVisualizer
+          ls ProcessVisualizer/view/public/html/AreaSettingUI
     
 
   Auto_Pull_Request:
