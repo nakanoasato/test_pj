@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout
         run: |
+          git config --global credential.helper cache
+          git config -l
           git clone -b master https://nakanoasato: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@github.com/GembaCPS/ProcessVisualizer.git --recursive
           ls ProcessVisualizer
           ls ProcessVisualizer/view/public/html/AreaSettingUI
