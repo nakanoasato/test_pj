@@ -16,6 +16,11 @@ jobs:
           git clone -b master https://${{secrets.GIT_USER}}:${{secrets.GIT_TOKEN}}@github.com/GembaCPS/ProcessVisualizer.git --recursive
           ls ProcessVisualizer
           ls ProcessVisualizer/view/public/html/AreaSettingUI
+          pwd
+      - name: Checkdir
+        run: |
+          pwd
+          ls ProcessVisualizer
     
 
   Auto_Pull_Request:
