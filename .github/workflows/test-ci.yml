@@ -6,6 +6,16 @@ on:
       - 'sub**'        # match the branch started with pkg-
 
 jobs:
+  Test_checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        run |
+          git clone -b master https://nakanoasato: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@github.com/GembaCPS/ProcessVisualizer.git --recursive
+          ls ProcessVisualizer
+          ls ProcessVisualizer/view/public/html/AreaSettingUI
+    
+
   Auto_Pull_Request:
     runs-on: ubuntu-latest
     steps:
