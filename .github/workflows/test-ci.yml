@@ -6,9 +6,32 @@ on:
       - 'sub**'        # match the branch started with pkg-
 
 jobs:
+  Test_checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        run: |
+          git config --global credential.helper cache
+          git config -l
+          git clone -b master https://${{secrets.GIT_USER}}:${{secrets.GIT_TOKEN}}@github.com/GembaCPS/ProcessVisualizer.git --recursive
+          ls ProcessVisualizer
+          ls ProcessVisualizer/view/public/html/AreaSettingUI
+          pwd
+      - name: Checkdir
+        run: |
+          pwd
+          ls ProcessVisualizer
+    
+
   Auto_Pull_Request:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+          architecture: x64
+
       - uses: actions/checkout@v3
       - name: Create pull request
         continue-on-error: true

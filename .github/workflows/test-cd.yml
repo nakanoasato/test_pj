@@ -7,7 +7,7 @@ on:
 
 jobs:
   Integration_Test:
-    if: contains(github.event.head_commit.message, 'quick-')
+    if: contains(github.event.head_commit.message, 'dev-')
     runs-on: ubuntu-latest
     steps:
       - name: Check merged branch
@@ -20,13 +20,21 @@ jobs:
           else
             echo "not contained"
           fi
-      
+
       - name: 2nd proc
         run: |
           ls
-  
+
   Pre_Deploy:
     needs: Integration_Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        run: |
+          ls
+
+  Quick_Pre_Deploy:
+    if: contains(github.event.head_commit.message, 'sub')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
