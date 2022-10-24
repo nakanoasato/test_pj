@@ -1,7 +1,11 @@
 name: test CI workflow
 
 env:
-  CI_TARGETS: flAreaTimeNum3d overview_bekido template timeAnalysisChart
+  CI_TARGETS:
+    flAreaTimeNum3d
+    overview_bekido
+    template
+    timeAnalysisChart
 
 on:
   push:
