@@ -18,9 +18,10 @@ jobs:
     steps:
       - name: Checkout
         run: |
-          for CI_TARGET in $CI_TARGETS;
+          for CI_TARGET in "${CI_TARGETS}";
           do
             echo ${CI_TARGET}
+            echo "OK"
           done
           git config --global credential.helper cache
           git config -l
