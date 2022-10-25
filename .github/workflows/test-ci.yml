@@ -6,6 +6,9 @@ env:
     overview_bekido
     template
     timeAnalysisChart
+  FIXED_DEPLOYMENT_TARGETS:
+    view/public/.deploy_commitid
+    view/public/js/dev_menu.js
 
 on:
   push:
@@ -43,6 +46,11 @@ jobs:
             fi
           done
           echo ${NON_PROTECTED_MODULES}
+          NON_PROTECTED_MODULES="${NON_PROTECTED_MODULES} ${FIXED_DEPLOYMENT_TARGETS}"
+          for NON_PROTECTED_MODULE in ${NON_PROTECTED_MODULES};
+          do
+            echo ${NON_PROTECTED_MODULE}
+          done
           pwd
       - name: Checkdir
         run: |
