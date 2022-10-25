@@ -42,7 +42,8 @@ jobs:
               fi
             done
             if "${is_none_protected_module}"; then
-              NON_PROTECTED_MODULES="${NON_PROTECTED_MODULES} ${CONTENTS_MODULE}"
+              NON_PROTECTED_MODULE=$(echo ${CONTENTS_MODULE} | cut -c 3-)
+              NON_PROTECTED_MODULES="${NON_PROTECTED_MODULES} ${NON_PROTECTED_MODULE}"
             fi
           done
           echo ${NON_PROTECTED_MODULES}
