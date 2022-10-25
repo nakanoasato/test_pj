@@ -1,7 +1,7 @@
 name: test CI workflow
 
 env:
-  CI_TARGETS:
+  PROTECTED_MODULES:
     flAreaTimeNum3d
     overview_bekido
     template
@@ -26,8 +26,23 @@ jobs:
           git config --global credential.helper cache
           git config -l
           git clone -b master https://${{secrets.GIT_USER}}:${{secrets.GIT_TOKEN}}@github.com/GembaCPS/ProcessVisualizer.git --recursive
-          ls ProcessVisualizer
-          ls ProcessVisualizer/view/public/html/AreaSettingUI
+          cd ProcessVisualizer
+          CONTENTS_MODULES=$(find -type d -regextype posix-basic -regex ".*/contents/.*")
+          NON_PROTECTED_MODULES=""
+          for CONTENTS_MODULE in ${CONTENTS_MODULES};
+          do
+            is_none_protected_module=true
+            for PROTECTED_MODULE in ${PROTECTED_MODULES};
+            do
+              if [[ ${CONTENTS_MODULE} =~ ${PROTECTED_MODULE} ]]; then
+                is_none_protected_module=false
+              fi
+            done
+            if "${is_none_protected_module}"; then
+              NON_PROTECTED_MODULES="${NON_PROTECTED_MODULES} ${CONTENTS_MODULE}"
+            fi
+          done
+          echo ${NON_PROTECTED_MODULES}
           pwd
       - name: Checkdir
         run: |
