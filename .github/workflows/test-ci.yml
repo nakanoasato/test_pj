@@ -24,8 +24,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Checkdir
         run: |
-          ls
-          PROTECTED_MODULES=`cat ./.github/workflow/PROTECTED_MODULES`
+          ls ./.github
+          PROTECTED_MODULES=`cat ./.github/workflows/PROTECTED_MODULES`
           ALL_MODULES=`ls -1 ./`
           TMP_CONC=`echo "${PROTECTED_MODULES}" && echo "${ALL_MODULES}"`
           UNPROTECTED_MODULES=`echo "${TMP_CONC}" | sort | uniq -u`
