@@ -37,6 +37,11 @@ jobs:
           gh secret set DEPLOYMENT_LOCK --body "$RENEWED_LOCK"
           DEFA=${{ secrets.DEPLOYMENT_LOCK }}
           echo $DEFA
+          ARR=(${DEFA//,/ })
+          for S in "${ARR[@]}";
+          do
+          echo "$S"
+          done
           if [ $DEFA = $BRANCH_NAME ]; then
             echo "Same"
             exit 0
