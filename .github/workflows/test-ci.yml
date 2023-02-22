@@ -27,7 +27,8 @@ jobs:
           echo ${{ vars.DEDEDE }}
           ABC=DEDEDE
           echo $GITHUB_ENV
-          echo "DAO=BABABA" >> $GITHUB_ENV
+          ${{ vars.DEDEDE }}=QA
+          echo "DAO=BABABA" >> ${{ vars.DEDEDE }}
 
   Auto_Pull_Request:
     runs-on: ubuntu-latest
