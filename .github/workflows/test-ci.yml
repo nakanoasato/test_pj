@@ -10,6 +10,11 @@ on:
     branches:
       - 'sub**'        # match the branch started with pkg-
 
+permissions:
+  id-token: write
+  contents: write
+  actions: write
+
 jobs:
   Test_checkout:
     runs-on: ubuntu-latest
