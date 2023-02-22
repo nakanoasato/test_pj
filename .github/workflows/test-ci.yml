@@ -29,25 +29,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Checker
         run: |
-          NOW=${{ secrets.BASE_URL }}
-          echo $NOW
-          ABC=wqa
-          gh secret set BASE_URL --body "${ABC}"
-          DEF=${{ secrets.BASE_URL }}
-          echo $DEF
-          if [ $DEF = $BRANCH_NAME ]; then
-            echo "Same"
-          else
-            echo "Diff"
-          fi
           BRANCH_NAME=${{ env.BRANCH }}
           echo $BRANCH_NAME
-          gh secret set BASE_URL --body "${BRANCH_NAME}"
-          DEFA=${{ secrets.BASE_URL }}
+          gh secret set DEPLOYMENT_LOCK --body "${BRANCH_NAME}"
+          DEFA=${{ secrets.DEPLOYMENT_LOCK }}
           echo $DEFA
           if [ $DEFA = $BRANCH_NAME ]; then
             echo "Same"
-            exit -1
+            exit 0
           else
             echo "Diff"
           fi
