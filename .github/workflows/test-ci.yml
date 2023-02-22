@@ -27,7 +27,7 @@ jobs:
           echo ${{ vars.DEDEDE }}
           ABC=DEDEDE
           echo $ABC
-          vars.DEDEDE=ABCDE
+          {{ vars.DEDEDE }}=ABCDE
 
 
   Auto_Pull_Request:
