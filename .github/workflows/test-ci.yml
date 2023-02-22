@@ -42,10 +42,10 @@ jobs:
           fi
           BRANCH_NAME=${{ env.BRANCH }}
           echo $BRANCH_NAME
-          gh secret set BASE_URL --body $BRANCH_NAME
-          DEF=${{ secrets.BASE_URL }}
-          echo $DEF
-          if [ $DEF = $DEF ]; then
+          gh secret set BASE_URL --body "${BRANCH_NAME}"
+          DEFA=${{ secrets.BASE_URL }}
+          echo $DEFA
+          if [ $DEFA = $BRANCH_NAME ]; then
             echo "Same"
           else
             echo "Diff"
