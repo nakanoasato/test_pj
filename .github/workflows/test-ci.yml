@@ -32,9 +32,9 @@ jobs:
           ABC=${{ secrets.BASE_URL }}
           echo $ABC
           ABC=test
-          #gh secret set BASE_URL --body "qwe"
-          #DEF=${{ secrets.BASE_URL }}
-          #echo $DEF
+          gh secret set BASE_URL --body "qwe"
+          DEF=${{ secrets.BASE_URL }}
+          echo $DEF
         env:
           GH_TOKEN: ${{ secrets.GIT_TOKEN }}
 
