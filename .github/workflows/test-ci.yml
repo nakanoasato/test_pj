@@ -40,14 +40,13 @@ jobs:
           ARR=(${DEFA//,/ })
           for S in "${ARR[@]}";
           do
-          echo "$S"
-          done
-          if [ $DEFA = $BRANCH_NAME ]; then
+          if [ $S = $BRANCH_NAME ]; then
             echo "Same"
             exit 0
           else
             echo "Diff"
           fi
+          done
 
         env:
           GH_TOKEN: ${{ secrets.GIT_TOKEN }}
