@@ -5,7 +5,7 @@ on:
     inputs:
       target:
         type: choice
-        description: Deploy target ${{ secrets.DEPLOYMENT_LOCK }}
+        description: Deploy target $secrets.DEPLOYMENT_LOCK
         options: 
         - dev1
         - dev2
