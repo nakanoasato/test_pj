@@ -27,8 +27,7 @@ jobs:
           echo ${{ vars.DEDEDE }}
           ABC=DEDEDE
           echo $ABC
-          {{ vars.DEDEDE }}=ABCDE
-
+          echo "DAO=BABABA-r" >> $GITHUB_ENV
 
   Auto_Pull_Request:
     runs-on: ubuntu-latest
