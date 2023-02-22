@@ -31,6 +31,9 @@ jobs:
         run: |
           BRANCH_NAME=${{ env.BRANCH }}
           echo $BRANCH_NAME
+          CURRENT_LOCK=${{ secrets.DEPLOYMENT_LOCK }}
+          RENEWED_LOCK="${CURRENT_LOCK},${BRANCH_NAME}"
+          echo $RENEWED_LOCK
           gh secret set DEPLOYMENT_LOCK --body "${BRANCH_NAME}"
           DEFA=${{ secrets.DEPLOYMENT_LOCK }}
           echo $DEFA
