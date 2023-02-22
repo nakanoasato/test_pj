@@ -22,14 +22,13 @@ jobs:
           cd ProcessVisualizer
       - name: Checkout2
         uses: actions/checkout@v2
-      - name: Checkdir
+      - name: Checker
         run: |
-          ls ./.github
-          PROTECTED_MODULES=`cat ./.github/workflows/PROTECTED_MODULES`
-          ALL_MODULES=`ls -1 ./`
-          TMP_CONC=`echo "${PROTECTED_MODULES}" && echo "${ALL_MODULES}"`
-          UNPROTECTED_MODULES=`echo "${TMP_CONC}" | sort | uniq -u`
-          echo ${UNPROTECTED_MODULES}
+          echo ${{ vars.DEDEDE }}
+          ABC=DEDEDE
+          echo $ABC
+          vars.DEDEDE=ABCDE
+
 
   Auto_Pull_Request:
     runs-on: ubuntu-latest
