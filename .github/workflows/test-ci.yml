@@ -32,7 +32,7 @@ jobs:
           NOW=${{ secrets.BASE_URL }}
           echo $NOW
           ABC=wqa
-          gh secret set BASE_URL --body $ABC
+          gh secret set BASE_URL --body "${ABC}"
           DEF=${{ secrets.BASE_URL }}
           echo $DEF
           if [ $DEF = $BRANCH_NAME ]; then
@@ -47,6 +47,7 @@ jobs:
           echo $DEFA
           if [ $DEFA = $BRANCH_NAME ]; then
             echo "Same"
+            exit -1
           else
             echo "Diff"
           fi
