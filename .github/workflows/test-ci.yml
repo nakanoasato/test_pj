@@ -45,7 +45,7 @@ jobs:
           gh secret set BASE_URL --body $BRANCH_NAME
           DEF=${{ secrets.BASE_URL }}
           echo $DEF
-          if [ $DEF = $BRANCH_NAME ]; then
+          if [ $DEF = $DEF ]; then
             echo "Same"
           else
             echo "Diff"
