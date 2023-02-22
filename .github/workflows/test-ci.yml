@@ -30,18 +30,15 @@ jobs:
       - name: Checker
         run: |
           BRANCH_NAME=${{ env.BRANCH }}
-          echo $BRANCH_NAME
           CURRENT_LOCK=${{ secrets.DEPLOYMENT_LOCK }}
           RENEWED_LOCK="${CURRENT_LOCK},${BRANCH_NAME}"
-          echo "$RENEWED_LOCK"
           gh secret set DEPLOYMENT_LOCK --body "$RENEWED_LOCK"
           DEFA=${{ secrets.DEPLOYMENT_LOCK }}
-          echo $DEFA
           ARR=(${DEFA//,/ })
           for S in "${ARR[@]}";
           do
           echo $S
-          if [ $S = $BRANCH_NAME ]; then
+          if [ $S = "The" ]; then
             echo "Same"
             exit 0
           else
