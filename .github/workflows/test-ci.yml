@@ -29,12 +29,28 @@ jobs:
         uses: actions/checkout@v2
       - name: Checker
         run: |
-          ABC=${{ secrets.BASE_URL }}
-          echo $ABC
-          ABC=test
-          gh secret set BASE_URL --body "qwe"
+          NOW=${{ secrets.BASE_URL }}
+          echo $NOW
+          ABC=wqa
+          gh secret set BASE_URL --body $ABC
           DEF=${{ secrets.BASE_URL }}
           echo $DEF
+          if [ $DEF = $BRANCH_NAME ]; then
+            echo "Same"
+          else
+            echo "Diff"
+          fi
+          BRANCH_NAME=${{ env.BRANCH }}
+          echo $BRANCH_NAME
+          gh secret set BASE_URL --body $BRANCH_NAME
+          DEF=${{ secrets.BASE_URL }}
+          echo $DEF
+          if [ $DEF = $BRANCH_NAME ]; then
+            echo "Same"
+          else
+            echo "Diff"
+          fi
+
         env:
           GH_TOKEN: ${{ secrets.GIT_TOKEN }}
 
