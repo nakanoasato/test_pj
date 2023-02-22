@@ -1,9 +1,19 @@
 name: test CI workflow
 
+env:
+  FIXED_DEPLOYMENT_TARGETS:
+    view/public/.deploy_commitid
+    view/public/js/dev_menu.js
+
 on:
   push:
     branches:
       - 'sub**'        # match the branch started with pkg-
+
+permissions:
+  id-token: write
+  contents: write
+  actions: write
 
 jobs:
   Test_checkout:
@@ -14,14 +24,33 @@ jobs:
           git config --global credential.helper cache
           git config -l
           git clone -b master https://${{secrets.GIT_USER}}:${{secrets.GIT_TOKEN}}@github.com/GembaCPS/ProcessVisualizer.git --recursive
-          ls ProcessVisualizer
-          ls ProcessVisualizer/view/public/html/AreaSettingUI
-          pwd
-      - name: Checkdir
+          cd ProcessVisualizer
+      - name: Checkout2
+        uses: actions/checkout@v2
+      - name: Checker
         run: |
-          pwd
-          ls ProcessVisualizer
-    
+          BRANCH_NAME=${{ env.BRANCH }}
+          echo $BRANCH_NAME
+          CURRENT_LOCK=${{ secrets.DEPLOYMENT_LOCK }}
+          RENEWED_LOCK="${CURRENT_LOCK},${BRANCH_NAME}"
+          echo "$RENEWED_LOCK"
+          gh secret set DEPLOYMENT_LOCK --body "$RENEWED_LOCK"
+          DEFA=${{ secrets.DEPLOYMENT_LOCK }}
+          echo $DEFA
+          ARR=(${DEFA//,/ })
+          for S in "${ARR[@]}";
+          do
+          if [ $S = $BRANCH_NAME ]; then
+            echo "Same"
+            exit 0
+          else
+            echo "Diff"
+          fi
+          done
+
+        env:
+          GH_TOKEN: ${{ secrets.GIT_TOKEN }}
+          BRANCH: ${GITHUB_REF#refs/heads/}
 
   Auto_Pull_Request:
     runs-on: ubuntu-latest
