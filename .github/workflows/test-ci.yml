@@ -24,11 +24,11 @@ jobs:
         uses: actions/checkout@v2
       - name: Checker
         run: |
-          ABC = ${{ secrets.BASE_URL }}
+          ABC=${{ secrets.BASE_URL }}
           echo $ABC
           ABC=test
           gh secret set BASE_URL --body $ABC
-          DEF = ${{ secrets.BASE_URL }}
+          DEF=${{ secrets.BASE_URL }}
           echo $DEF
 
   Auto_Pull_Request:
