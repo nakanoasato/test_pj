@@ -9,43 +9,42 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Show inputs
-      run: |
-        BRANCH_NAME=${{ env.BRANCH }}
-        CURRENT_LOCK=${{ secrets.DEPLOYMENT_LOCK }}
-        idx=0
-        is_locked_deployment=true
-        CURRENT_LOCK_LIST=(${CURRENT_LOCK//,/ })
-        if [ ${#CURRENT_LOCK_LIST[@]} -eq 0 ]; then
-          is_locked_deployment=false
-        else
-          for CURRENT_LOCK_NAME in "${CURRENT_LOCK_LIST[@]}";
-          do
-            echo "$CURRENT_LOCK_NAME is locking the deployment"
-            if [ $CURRENT_LOCK_NAME = $BRANCH_NAME ]; then
-              unset CURRENT_LOCK_LIST[$idx]
-              gh secret set DEPLOYMENT_LOCK --body "$CURRENT_LOCK_LIST"
-              echo "Release $BRANCH_NAME s lock. $BRANCH_NAME is deploying now"
-              is_locked_deployment=false
-            fi
-            echo "save1"
-            idx=$idx+1
-            echo "save2"
-          done
-        fi
-        echo "samp"
-        if "${is_locked_deployment}"; then
-          echo "Below branches are locking the deploymet"
+      - name: Checkout2
+        uses: actions/checkout@v2
+      - name: Show inputs
+        run: |
+          BRANCH_NAME=${{ env.BRANCH }}
           CURRENT_LOCK=${{ secrets.DEPLOYMENT_LOCK }}
+          idx=0
+          is_locked_deployment=true
           CURRENT_LOCK_LIST=(${CURRENT_LOCK//,/ })
-          for CURRENT_LOCK_NAME in "${CURRENT_LOCK_LIST[@]}";
-          do
-            echo "$CURRENT_LOCK_NAME"
-          done
-        else
-          echo "Deploy now"
-        fi
-      env:
+          if [ ${#CURRENT_LOCK_LIST[@]} -eq 0 ]; then
+            is_locked_deployment=false
+          else
+            for CURRENT_LOCK_NAME in "${CURRENT_LOCK_LIST[@]}";
+            do
+              echo "$CURRENT_LOCK_NAME is locking the deployment"
+              if [ $CURRENT_LOCK_NAME = $BRANCH_NAME ]; then
+                unset CURRENT_LOCK_LIST[$idx]
+                gh secret set DEPLOYMENT_LOCK --body "$CURRENT_LOCK_LIST"
+                echo "Release $BRANCH_NAME s lock. $BRANCH_NAME is deploying now"
+                is_locked_deployment=false
+              fi
+              idx=$idx+1
+            done
+          fi
+          if "${is_locked_deployment}"; then
+            echo "Below branches are locking the deploymet"
+            CURRENT_LOCK=${{ secrets.DEPLOYMENT_LOCK }}
+            CURRENT_LOCK_LIST=(${CURRENT_LOCK//,/ })
+            for CURRENT_LOCK_NAME in "${CURRENT_LOCK_LIST[@]}";
+            do
+              echo "$CURRENT_LOCK_NAME"
+            done
+          else
+            echo "Deploy now"
+          fi
+        env:
           GH_TOKEN: ${{ secrets.GIT_TOKEN }}
           BRANCH: ${GITHUB_REF#refs/heads/}
           ASSIGNEE: ${{ github.event.pull_request.user.login }}
