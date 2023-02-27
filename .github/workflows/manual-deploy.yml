@@ -28,9 +28,8 @@ jobs:
     steps:
     - name: Show inputs
       run: |
+        echo "GITHUB_REF#refs/heads/                    = ${GITHUB_REF#refs/heads/}"
+        echo "target: ${{ github.event.inputs.branch }}"
         echo "target: ${{ github.event.inputs.target }}"
         echo "message: ${{ github.event.inputs.message }}"
         echo "dryrun: ${{ github.event.inputs.dryrun }}"
-    - name: Deploy (use environemt secrets)
-      run: |
-        echo "Deploy target server: ${{ secrets.ENV_SERVER }}"
