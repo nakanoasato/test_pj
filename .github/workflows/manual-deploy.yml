@@ -2,32 +2,48 @@ name: Manual Deploy
 
 on:
   workflow_dispatch:
-    inputs:
-      target:
-        type: choice
-        description: Deploy target AAA
-        options: 
-        - ABCDE
-      message:
-        required: true
-        default: "Write some messsage here"
-      dryrun:
-        type: boolean
-        description: Is dryrun?
-        default: true
-      environment:
-        type: environment
+    description: featureブランチをデプロイ待ちしている間は、masterブランチはデプロイできません
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment }}
 
     steps:
     - name: Show inputs
       run: |
-        echo "GITHUB_REF#refs/heads/                    = ${GITHUB_REF#refs/heads/}"
-        echo "target: ${{ github.event.inputs }}"
-        echo "target: ${{ github.event.inputs.target }}"
-        echo "message: ${{ github.event.inputs.message }}"
-        echo "dryrun: ${{ github.event.inputs.dryrun }}"
+        BRANCH_NAME=${{ env.BRANCH }}
+        CURRENT_LOCK=${{ secrets.DEPLOYMENT_LOCK }}
+        idx=0
+        is_locked_deployment=true
+        CURRENT_LOCK_LIST=(${CURRENT_LOCK//,/ })
+        if [ ${#CURRENT_LOCK_LIST[@]} -eq 0 ]; then
+          is_locked_deployment=false
+        else
+          for CURRENT_LOCK_NAME in "${CURRENT_LOCK_LIST[@]}";
+          do
+            echo "$CURRENT_LOCK_NAME is locking the deployment"
+            if [ $CURRENT_LOCK_NAME = $BRANCH_NAME ]; then
+              unset CURRENT_LOCK_LIST[$idx]
+              gh secret set DEPLOYMENT_LOCK --body "$CURRENT_LOCK_LIST"
+              echo "Release $BRANCH_NAME s lock. $BRANCH_NAME is deploying now"
+              is_locked_deployment=false
+            fi
+            let idx++
+          done
+        fi
+        if "${is_locked_deployment}"; then
+          echo "Below branches are locking the deploymet"
+          CURRENT_LOCK=${{ secrets.DEPLOYMENT_LOCK }}
+          CURRENT_LOCK_LIST=(${CURRENT_LOCK//,/ })
+          for CURRENT_LOCK_NAME in "${CURRENT_LOCK_LIST[@]}";
+          do
+            echo "$CURRENT_LOCK_NAME"
+          done
+        else
+          echo "Deploy now"
+        fi
+      env:
+          GH_TOKEN: ${{ secrets.GIT_TOKEN }}
+          BRANCH: ${GITHUB_REF#refs/heads/}
+          ASSIGNEE: ${{ github.event.pull_request.user.login }}
+          AUTHOR: ${{ github.event.pusher.name }}
