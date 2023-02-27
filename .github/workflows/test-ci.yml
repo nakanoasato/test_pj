@@ -31,21 +31,22 @@ jobs:
         run: |
           BRANCH_NAME=${{ env.BRANCH }}
           CURRENT_LOCK=${{ secrets.DEPLOYMENT_LOCK }}
-          RENEWED_LOCK="${CURRENT_LOCK},${BRANCH_NAME}"
-          gh secret set DEPLOYMENT_LOCK --body "$RENEWED_LOCK"
-          DEFA=${{ secrets.DEPLOYMENT_LOCK }}
-          ARR=(${DEFA//,/ })
-          for S in "${ARR[@]}";
+          CURRENT_LOCK_LIST=(${CURRENT_LOCK//,/ })
+          is_already_locked=false
+          for CURRENT_LOCK_NAME in "${CURRENT_LOCK_LIST[@]}";
           do
-          echo $S
-          if [ $S = "The" ]; then
-            echo "Same"
-            exit 0
-          else
-            echo "Diff"
+          echo "$CURRENT_LOCK_NAME is locking the deployment"
+          if [ $CURRENT_LOCK_NAME = $BRANCH_NAME ]; then
+            is_already_locked=true
           fi
           done
-
+          if "${is_already_locked}"; then
+            echo "This branch has already been getting the deployment-lock"
+          else
+            echo "$BRANCH_NAME will be getting the deployment-lock"
+            RENEWED_DEPLOYMENT_LOCK="${CURRENT_LOCK},${BRANCH_NAME}"
+            gh secret set DEPLOYMENT_LOCK --body "$RENEWED_DEPLOYMENT_LOCK"
+          fi
         env:
           GH_TOKEN: ${{ secrets.GIT_TOKEN }}
           BRANCH: ${GITHUB_REF#refs/heads/}
