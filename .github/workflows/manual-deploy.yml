@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout2
+        uses: actions/checkout@v2
     - name: Show inputs
       run: |
         BRANCH_NAME=${{ env.BRANCH }}
