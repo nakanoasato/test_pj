@@ -7,7 +7,7 @@ on:
         type: choice
         description: Deploy target AAA
         options: 
-        - ${{ secrets.DEPLOYMENT_LOCK }}
+        - ABCDE
       message:
         required: true
         default: "Write some messsage here"
