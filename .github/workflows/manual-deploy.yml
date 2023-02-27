@@ -28,7 +28,9 @@ jobs:
               echo "Release $BRANCH_NAME s lock. $BRANCH_NAME is deploying now"
               is_locked_deployment=false
             fi
+            echo "save1"
             let idx++
+            echo "save2"
           done
         fi
         echo "samp"
