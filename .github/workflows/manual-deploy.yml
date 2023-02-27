@@ -29,7 +29,7 @@ jobs:
               is_locked_deployment=false
             fi
             echo "save1"
-            let idx++
+            idx=$idx+1
             echo "save2"
           done
         fi
