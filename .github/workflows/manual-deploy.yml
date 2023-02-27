@@ -31,6 +31,7 @@ jobs:
             let idx++
           done
         fi
+        echo "samp"
         if "${is_locked_deployment}"; then
           echo "Below branches are locking the deploymet"
           CURRENT_LOCK=${{ secrets.DEPLOYMENT_LOCK }}
