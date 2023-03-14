@@ -1,0 +1,16 @@
+name: Respond to approved
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  check-state:
+    if: github.event.review.state == 'approved'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Find last comment
+        run: |
+          ls
+          sudo apt -y install jq
+          echo ${{ github.event.pull_request }} | jq .
