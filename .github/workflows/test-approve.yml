@@ -12,5 +12,4 @@ jobs:
       - name: Find last comment
         run: |
           ls
-          sudo apt -y install jq
           echo ${{ github.event.pull_request }} | jq .
