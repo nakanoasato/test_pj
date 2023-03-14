@@ -14,11 +14,6 @@ jobs:
           ls
           echo ${{ github.event.pull_request.number }}
           echo ${{ env.GH_MERGEABLE }}
-          if "${{ env.GH_MERGEABLE }}"; then
-              echo "true"
-          else
-              echo "false"
-          fi
           echo ${{ github.event.pull_request.mergeable_state }}
         env:
-          GH_MERGEABLE: ${{ github.event.pull_request.mergeable }}
+          GH_MERGEABLE: ${{ github.event.pull_request.number.mergeable }}
