@@ -12,5 +12,8 @@ jobs:
       - name: Find last comment
         run: |
           ls
-          sudo apt -y install jq
-          echo ${{ github.event.pull_request }} | jq .
+          echo ${{ github.event.pull_request.number }}
+          echo ${{ env.GH_MERGEABLE }}
+          echo ${{ github.event.pull_request.mergeable_state }}
+        env:
+          GH_MERGEABLE: ${{ github.event.pull_request.number.mergeable }}

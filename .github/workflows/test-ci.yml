@@ -10,47 +10,7 @@ on:
     branches:
       - 'sub**'        # match the branch started with pkg-
 
-permissions:
-  id-token: write
-  contents: write
-  actions: write
-
 jobs:
-  Test_checkout:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        run: |
-          git config --global credential.helper cache
-          git config -l
-          git clone -b master https://${{secrets.GIT_USER}}:${{secrets.GIT_TOKEN}}@github.com/GembaCPS/ProcessVisualizer.git --recursive
-          cd ProcessVisualizer
-      - name: Checkout2
-        uses: actions/checkout@v2
-      - name: Checker
-        run: |
-          BRANCH_NAME=${{ env.BRANCH }}
-          CURRENT_LOCK=${{ secrets.DEPLOYMENT_LOCK }}
-          CURRENT_LOCK_LIST=(${CURRENT_LOCK//,/ })
-          is_already_locked=false
-          for CURRENT_LOCK_NAME in "${CURRENT_LOCK_LIST[@]}";
-          do
-          echo "$CURRENT_LOCK_NAME is locking the deployment"
-          if [ $CURRENT_LOCK_NAME = $BRANCH_NAME ]; then
-            is_already_locked=true
-          fi
-          done
-          if "${is_already_locked}"; then
-            echo "This branch has already been getting the deployment-lock"
-          else
-            echo "$BRANCH_NAME will be getting the deployment-lock"
-            RENEWED_DEPLOYMENT_LOCK="${CURRENT_LOCK},${BRANCH_NAME}"
-            gh secret set DEPLOYMENT_LOCK --body "$RENEWED_DEPLOYMENT_LOCK"
-          fi
-        env:
-          GH_TOKEN: ${{ secrets.GIT_TOKEN }}
-          BRANCH: ${GITHUB_REF#refs/heads/}
-
   Auto_Pull_Request:
     runs-on: ubuntu-latest
     steps:
@@ -71,7 +31,7 @@ jobs:
           fi
           gh pr create -B "main" -t "Develop ${{ env.BRANCH }} into main" -b "" -a $AUTHOR -r $AUTHOR
         env:
-          GH_TOKEN: ${{ secrets.GIT_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: ${GITHUB_REF#refs/heads/}
           ASSIGNEE: ${{ github.event.pull_request.user.login }}
           AUTHOR: ${{ github.event.pusher.name }}
