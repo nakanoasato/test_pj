@@ -13,5 +13,7 @@ jobs:
         run: |
           ls
           echo ${{ github.event.pull_request.number }}
-          echo ${{ github.event.pull_request.mergeable }}
+          echo ${{ env.GH_MERGEABLE }}
           echo ${{ github.event.pull_request.mergeable_state }}
+        env:
+          GH_MERGEABLE: ${{ github.event.pull_request.mergeable }}
