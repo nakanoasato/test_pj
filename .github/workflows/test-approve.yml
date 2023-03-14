@@ -12,4 +12,5 @@ jobs:
       - name: Find last comment
         run: |
           ls
-          echo ${{ github.event.pull_request }} | jq .
+          echo ${{ github.event.pull_request.number }}
+          echo ${{ github.event.pull_request.mergeable }}
